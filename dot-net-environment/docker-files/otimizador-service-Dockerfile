@@ -3,14 +3,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY services/API/OtimizadorService/OtimizadorService.csproj services/API/OtimizadorService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/OtimizadorService/OtimizadorService.csproj API/OtimizadorService/
+COPY Library/*/*.csproj Library/*/
 
-RUN dotnet restore services/API/OtimizadorService/OtimizadorService.csproj
+RUN dotnet restore API/OtimizadorService/OtimizadorService.csproj
 
 COPY . .
 
-WORKDIR /src/services/API/OtimizadorService
+WORKDIR /src/API/OtimizadorService
 RUN dotnet publish -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

@@ -5,17 +5,17 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar csprojs primeiro (para otimizar cache)
-COPY services/API/HidrologiaService/HidrologiaService.csproj services/API/HidrologiaService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/HidrologiaService/HidrologiaService.csproj API/HidrologiaService/
+COPY Library/*/*.csproj Library/*/
 
 # Restaurar dependências
-RUN dotnet restore services/API/HidrologiaService/HidrologiaService.csproj
+RUN dotnet restore API/HidrologiaService/HidrologiaService.csproj
 
 # Copiar tudo
 COPY . .
 
 # Publicar app
-WORKDIR /src/services/API/HidrologiaService
+WORKDIR /src/API/HidrologiaService
 RUN dotnet publish -c Release -o /app
 
 # Imagem final

@@ -5,16 +5,16 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar csprojs primeiro (para otimizar cache)
-COPY services/API/Gateway/Gateway.csproj services/API/Gateway/
+COPY API/Gateway/Gateway.csproj API/Gateway/
 
 # Restaurar dependências
-RUN dotnet restore services/API/Gateway/Gateway.csproj
+RUN dotnet restore API/Gateway/Gateway.csproj
 
 # Copiar tudo
 COPY . .
 
 # Publicar app
-WORKDIR /src/services/API/Gateway
+WORKDIR /src/API/Gateway
 RUN dotnet publish -c Release -o /app
 
 # Imagem final

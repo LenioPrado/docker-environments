@@ -1,8 +1,8 @@
 services:
   pi:
     build:
-      context: /media/lenio/Dados/develop/Jirau/otimizador
-      dockerfile: /home/lenio/Documents/dot-net-environment/docker-files/pi-Dockerfile
+      context: /mnt/c/Users/lenio.prado/Documents/otimizador/services
+      dockerfile: /mnt/c/Users/lenio.prado/Documents/docker-environments/dot-net-environment/docker-files/pi-Dockerfile
     container_name: piservice
     ports:
       - "5004:5004"

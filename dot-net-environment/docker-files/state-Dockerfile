@@ -3,14 +3,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY services/API/StateService/StateService.csproj services/API/StateService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/StateService/StateService.csproj API/StateService/
+COPY Library/*/*.csproj Library/*/
 
-RUN dotnet restore services/API/StateService/StateService.csproj
+RUN dotnet restore API/StateService/StateService.csproj
 
 COPY . .
 
-WORKDIR /src/services/API/StateService
+WORKDIR /src/API/StateService
 RUN dotnet publish -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

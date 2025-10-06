@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Diretório onde estão os arquivos compose
-COMPOSE_DIR="/home/lenio/Documents/dot-net-environment/compose-files/services"
+COMPOSE_DIR="/mnt/c/Users/lenio.prado/Documents/docker-environments/dot-net-environment/compose-files/services/"
 
 compose_files_concat() {
     local selected_services=("$@")
@@ -145,7 +145,7 @@ while true; do
         4) build_selecting ;;
         5) stop_all ;;
         6) stop_selecting ;;
-        0) echo "Saindo..."; exit 0 ;;
+        0) echo "Saindo...";;
         *) echo "Opção inválida!" ;;
     esac
 done

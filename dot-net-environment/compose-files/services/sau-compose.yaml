@@ -1,8 +1,8 @@
 services:
   sau:
     build:
-      context: /media/lenio/Dados/develop/Jirau/otimizador
-      dockerfile: /home/lenio/Documents/dot-net-environment/docker-files/sau-Dockerfile
+      context: /mnt/c/Users/lenio.prado/Documents/otimizador/services
+      dockerfile: /mnt/c/Users/lenio.prado/Documents/docker-environments/dot-net-environment/docker-files/sau-Dockerfile
     container_name: sauservice
     ports:
       - "5006:5006"

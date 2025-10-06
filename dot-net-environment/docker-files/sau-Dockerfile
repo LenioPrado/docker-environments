@@ -3,14 +3,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY services/API/SAUService/SAUService.csproj services/API/SAUService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/SAUService/SAUService.csproj API/SAUService/
+COPY Library/*/*.csproj Library/*/
 
-RUN dotnet restore services/API/SAUService/SAUService.csproj
+RUN dotnet restore API/SAUService/SAUService.csproj
 
 COPY . .
 
-WORKDIR /src/services/API/SAUService
+WORKDIR /src/API/SAUService
 RUN dotnet publish -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

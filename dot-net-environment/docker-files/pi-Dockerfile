@@ -3,14 +3,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY services/API/PIService/PIService.csproj services/API/PIService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/PIService/PIService.csproj API/PIService/
+COPY Library/*/*.csproj Library/*/
 
-RUN dotnet restore services/API/PIService/PIService.csproj
+RUN dotnet restore API/PIService/PIService.csproj
 
 COPY . .
 
-WORKDIR /src/services/API/PIService
+WORKDIR /src/API/PIService
 RUN dotnet publish -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

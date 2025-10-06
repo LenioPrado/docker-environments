@@ -5,17 +5,17 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copiar csprojs primeiro (para cache)
-COPY services/API/IAMService/IAMService.csproj services/API/IAMService/
-COPY services/Library/*/*.csproj services/Library/*/
+COPY API/IAMService/IAMService.csproj API/IAMService/
+COPY Library/*/*.csproj Library/*/
 
 # Restaurar dependências
-RUN dotnet restore services/API/IAMService/IAMService.csproj
+RUN dotnet restore API/IAMService/IAMService.csproj
 
 # Copiar todo o código
 COPY . .
 
 # Publicar app
-WORKDIR /src/services/API/IAMService
+WORKDIR /src/API/IAMService
 RUN dotnet publish -c Release -o /app
 
 # Imagem final
