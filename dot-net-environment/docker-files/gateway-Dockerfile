@@ -1,0 +1,29 @@
+# Dockerfile para Gateway
+
+# Imagem base para compilação
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar csprojs primeiro (para otimizar cache)
+COPY services/API/Gateway/Gateway.csproj services/API/Gateway/
+
+# Restaurar dependências
+RUN dotnet restore services/API/Gateway/Gateway.csproj
+
+# Copiar tudo
+COPY . .
+
+# Publicar app
+WORKDIR /src/services/API/Gateway
+RUN dotnet publish -c Release -o /app
+
+# Imagem final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app .
+
+# Porta padrão da sua aplicação
+ENV ASPNETCORE_URLS=http://+:7000
+
+EXPOSE 7000
+ENTRYPOINT ["dotnet", "Gateway.dll"]

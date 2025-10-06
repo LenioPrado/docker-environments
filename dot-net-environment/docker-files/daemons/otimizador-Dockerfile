@@ -1,0 +1,25 @@
+# Dockerfile para Otimizador
+
+# Imagem base para compilação
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar csprojs primeiro (para otimizar cache)
+COPY services/Daemon/Otimizador/Otimizador.csproj services/Daemon/Otimizador/
+
+# Restaurar dependências
+RUN dotnet restore services/Daemon/Otimizador/Otimizador.csproj
+
+# Copiar tudo
+COPY . .
+
+# Publicar app
+WORKDIR /src/services/Daemon/Otimizador
+RUN dotnet publish -c Release -o /app
+
+# Imagem final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app .
+
+ENTRYPOINT ["dotnet", "Otimizador.dll"]

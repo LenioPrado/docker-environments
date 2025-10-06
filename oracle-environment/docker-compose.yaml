@@ -1,0 +1,14 @@
+services:
+  oracle-db:
+    image: gvenzl/oracle-free:latest
+    container_name: oracle-free
+    hostname: oraclefree
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    environment:
+      ORACLE_PASSWORD: "Admin123"
+    volumes:
+      - ./init:/container-entrypoint-initdb.d
+      - ./sync:/opt/oracle/external_data
+    restart: unless-stopped

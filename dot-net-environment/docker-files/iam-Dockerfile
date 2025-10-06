@@ -1,0 +1,30 @@
+# Dockerfile para IAMService
+
+# Imagem base para compilação
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar csprojs primeiro (para cache)
+COPY services/API/IAMService/IAMService.csproj services/API/IAMService/
+COPY services/Library/*/*.csproj services/Library/*/
+
+# Restaurar dependências
+RUN dotnet restore services/API/IAMService/IAMService.csproj
+
+# Copiar todo o código
+COPY . .
+
+# Publicar app
+WORKDIR /src/services/API/IAMService
+RUN dotnet publish -c Release -o /app
+
+# Imagem final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app .
+
+# Porta padrão
+ENV ASPNETCORE_URLS=http://+:5000
+
+EXPOSE 5001
+ENTRYPOINT ["dotnet", "IAMService.dll"]

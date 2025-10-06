@@ -1,0 +1,23 @@
+# Dockerfile para StateService
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY services/API/StateService/StateService.csproj services/API/StateService/
+COPY services/Library/*/*.csproj services/Library/*/
+
+RUN dotnet restore services/API/StateService/StateService.csproj
+
+COPY . .
+
+WORKDIR /src/services/API/StateService
+RUN dotnet publish -c Release -o /app
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app .
+
+ENV ASPNETCORE_URLS=http://+:5003
+
+EXPOSE 5003
+ENTRYPOINT ["dotnet", "StateService.dll"]

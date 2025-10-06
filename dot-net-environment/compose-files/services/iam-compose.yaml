@@ -1,0 +1,11 @@
+services:
+  iam:
+    build:
+      context: /media/lenio/Dados/develop/Jirau/otimizador
+      dockerfile: /home/lenio/Documents/dot-net-environment/docker-files/iam-Dockerfile
+    container_name: iamservice
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: always

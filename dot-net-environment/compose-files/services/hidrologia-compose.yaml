@@ -1,0 +1,11 @@
+services:
+  hidrologia:
+    build:
+      context: /media/lenio/Dados/develop/Jirau/otimizador
+      dockerfile: /home/lenio/Documents/dot-net-environment/docker-files/hidrologia-Dockerfile
+    container_name: hidrologia
+    ports:
+      - "5002:5002"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: always

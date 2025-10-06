@@ -1,0 +1,11 @@
+services:
+  state:
+    build:
+      context: /media/lenio/Dados/develop/Jirau/otimizador
+      dockerfile: /home/lenio/Documents/dot-net-environment/docker-files/state-Dockerfile
+    container_name: stateservice
+    ports:
+      - "5003:5003"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: always

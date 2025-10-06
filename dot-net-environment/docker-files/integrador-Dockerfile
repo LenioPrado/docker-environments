@@ -1,0 +1,23 @@
+# Dockerfile para IntegradorPIToBIService
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY services/API/IntegradorPIToBI/IntegradorPIToBI.csproj services/API/IntegradorPIToBI/
+COPY services/Library/*/*.csproj services/Library/*/
+
+RUN dotnet restore services/API/IntegradorPIToBI/IntegradorPIToBI.csproj
+
+COPY . .
+
+WORKDIR /src/services/API/IntegradorPIToBI
+RUN dotnet publish -c Release -o /app
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+COPY --from=build /app .
+
+ENV ASPNETCORE_URLS=http://+:5001
+
+EXPOSE 5001
+ENTRYPOINT ["dotnet", "IntegradorPIToBI.dll"]
