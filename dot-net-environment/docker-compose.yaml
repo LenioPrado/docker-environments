@@ -1,0 +1,43 @@
+# Variáveis e configurações compartilhadas
+x-common-env: &common-env
+  DOTNET_USE_POLLING_FILE_WATCHER: 1
+
+# Caminho único para o Dockerfile de desenvolvimento
+x-dockerfile-path: &dockerfile-path ${DOCKER_FILE_PATH}
+
+services:
+  gateway_dev:
+    container_name: gateway_service_dev
+    build:
+      context: ${PROJECTS_ROOT}
+      dockerfile: *dockerfile-path
+      args:
+        PROJECT_NAME: Gateway
+        PROJECT_PORT: ${PORT_GATEWAY}
+        LAUNCH_PROFILE: Gateway-${PROFILE}
+    ports:
+      - "${PORT_GATEWAY}:${PORT_GATEWAY}"
+    environment: *common-env
+    entrypoint: sh -c "dotnet watch run --launch-profile \"Gateway-${PROFILE}\" --urls http://0.0.0.0:${PORT_GATEWAY}"
+    volumes:
+      - ${PROJECTS_ROOT}/API/Gateway:/app/API/Gateway
+      - ${PROJECTS_ROOT}/Library:/app/Library
+    tty: true
+
+  iam_dev:
+    container_name: iam_service_dev
+    build:
+      context: ${PROJECTS_ROOT}
+      dockerfile: *dockerfile-path
+      args:
+        PROJECT_NAME: IAMService
+        PROJECT_PORT: ${PORT_IAM}
+        LAUNCH_PROFILE: IAMService-${PROFILE}
+    ports:
+      - "${PORT_IAM}:${PORT_IAM}"
+    environment: *common-env
+    entrypoint: sh -c "dotnet watch run --launch-profile \"IAMService-${PROFILE}\" --urls http://0.0.0.0:${PORT_IAM}"
+    volumes:
+      - ${PROJECTS_ROOT}/API/IAMService:/app/API/IAMService
+      - ${PROJECTS_ROOT}/Library:/app/Library
+    tty: true

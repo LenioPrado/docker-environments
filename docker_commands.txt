@@ -1,0 +1,6 @@
+docker run --rm -it --entrypoint 8b8 /bin/bash
+
+docker ps --format "{{.ID}}: {{.Image}} -> {{.Command}}"
+
+docker inspect -f '{{.Config.Cmd}}' <container_id>
+docker inspect -f '{{.Config.Entrypoint}}' <container_id>
